@@ -29,7 +29,7 @@ public class addvoter extends AppCompatActivity {
     Button b;
     FirebaseAuth fauth;
     FirebaseDatabase ab;
-    String email,pass;
+    String id,email,pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class addvoter extends AppCompatActivity {
 
         e1=findViewById(R.id.editText);
         e2=findViewById(R.id.editText2);
+        e3=findViewById(R.id.editText3);
         fauth=FirebaseAuth.getInstance();
         b=findViewById(R.id.button);
         b.setOnClickListener(new View.OnClickListener()
@@ -45,14 +46,19 @@ public class addvoter extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                email=e1.getText().toString().trim();
-                pass=e2.getText().toString().trim();
+                email=e2.getText().toString().trim();
+                pass=e3.getText().toString().trim();
+                id=e1.getText().toString().trim();
                 if(TextUtils.isEmpty(email)){
                     e1.setError("Email is required.");
                     return;
                 }
                 if(TextUtils.isEmpty(pass)){
                     e2.setError("Password is required.");
+                    return;
+                }
+                if(TextUtils.isEmpty(id)){
+                    e2.setError("id is required.");
                     return;
                 }
                 if(pass.length()<6){
@@ -66,9 +72,8 @@ public class addvoter extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
 
-                            member m=new member(FirebaseAuth.getInstance().getCurrentUser().getEmail(),"false");
-                            FirebaseDatabase.getInstance().getReference("voters")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            member m=new member(FirebaseAuth.getInstance().getCurrentUser().getEmail(),"false",id,FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            FirebaseDatabase.getInstance().getReference("voters").child(id)
                                     .setValue(m).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -106,14 +111,18 @@ public class addvoter extends AppCompatActivity {
 class member
 {
     public String status;
-    public String eamil;
+    public String email;
+    public String id;
+    public String uid;
 
     member()
     {}
 
-    member(String a,String b)
+    member(String a,String b,String C,String d)
     {
         status=b;
-        eamil=a;
+        email=a;
+        id=C;
+        uid=d;
     }
 }
