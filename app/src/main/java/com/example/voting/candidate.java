@@ -20,7 +20,7 @@ public class candidate extends AppCompatActivity {
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent I = new Intent(getApplicationContext(), addvoter.class);
+                Intent I = new Intent(getApplicationContext(), AddCandidate.class);
                 startActivity(I);
             }
         });
@@ -33,7 +33,7 @@ public class candidate extends AppCompatActivity {
         co.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent I = new Intent(getApplicationContext(), viewvoter.class);
+                Intent I = new Intent(getApplicationContext(), viewcandidate.class);
                 startActivity(I);
             }
         });

@@ -29,7 +29,7 @@ public class addvoter extends AppCompatActivity {
     Button b;
     FirebaseAuth fauth;
     FirebaseDatabase ab;
-    String userid,email,pass;
+    String email,pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class addvoter extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
 
-                            member m=new member("false");
+                            member m=new member(FirebaseAuth.getInstance().getCurrentUser().getEmail(),"false");
                             FirebaseDatabase.getInstance().getReference("voters")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(m).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -106,9 +106,11 @@ public class addvoter extends AppCompatActivity {
 class member
 {
     public String status;
+    public String eamil;
 
-    member(String b)
+    member(String a,String b)
     {
         status=b;
+        eamil=a;
     }
 }
