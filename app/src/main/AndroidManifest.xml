@@ -11,10 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".removevoter"></activity>
         <activity android:name=".viewcandidate" />
         <activity android:name=".viewvoter" />
         <activity android:name=".addvoter" />
         <activity android:name=".AddCandidate" />
+        <activity android:name=".removecandidate" />
         <activity android:name=".control" />
         <activity android:name=".candidate" />
         <activity android:name=".voter" />

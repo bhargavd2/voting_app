@@ -27,7 +27,8 @@ public class voter extends AppCompatActivity {
         ca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // pop
+                Intent I = new Intent(getApplicationContext(), removevoter.class);
+                startActivity(I);
             }
         });
         co.setOnClickListener(new View.OnClickListener() {
