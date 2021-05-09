@@ -73,6 +73,9 @@ class mcandidate
     public String party;
     public int votes;
 
+    mcandidate()
+    {    }
+
     mcandidate(String a,String b)
     {
         name=a;

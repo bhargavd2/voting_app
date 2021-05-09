@@ -108,6 +108,9 @@ class member
     public String status;
     public String eamil;
 
+    member()
+    {}
+
     member(String a,String b)
     {
         status=b;

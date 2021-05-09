@@ -15,8 +15,8 @@ public class control extends AppCompatActivity {
         setContentView(R.layout.activity_control);
 
         b1=findViewById(R.id.button);
-        b1=findViewById(R.id.button2);
-        b1=findViewById(R.id.button4);
+        b2=findViewById(R.id.button2);
+        b3=findViewById(R.id.button4);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
