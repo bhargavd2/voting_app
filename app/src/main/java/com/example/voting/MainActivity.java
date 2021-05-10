@@ -85,9 +85,38 @@ public class MainActivity extends AppCompatActivity
                                             status=snapshot.getValue().toString();
                                             if(status.equals("true"))
                                             {
-                                                startActivity(new Intent(getApplicationContext(), MainActivity3.class));
-                                                finish();
-                                                return;
+                                                FirebaseDatabase.getInstance().getReference("voters")
+                                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+
+                                                                for ( DataSnapshot snapshot : datasnapshot.getChildren()) {
+                                                                    member m = snapshot.getValue(member.class);
+                                                                    String id = FirebaseAuth.getInstance().getUid().toString();
+
+                                                                    if (id.equals(m.uid)) {
+                                                                        if (m.status.equals("false")) {
+                                                                            startActivity(new Intent(getApplicationContext(), MainActivity3.class));
+                                                                            finish();
+                                                                        }
+                                                                        else {
+                                                                            Toast.makeText(getApplicationContext(), "Vote Casted", Toast.LENGTH_LONG).show();
+                                                                        }
+
+                                                                            break;
+
+                                                                        }
+                                                                    }
+                                                                }
+
+
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                                            }
+                                                        });
+
                                             }
                                             else {
                                                 Toast.makeText(getApplicationContext(), "election not started", Toast.LENGTH_LONG).show();

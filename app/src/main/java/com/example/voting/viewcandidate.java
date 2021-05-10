@@ -36,7 +36,7 @@ public class viewcandidate extends AppCompatActivity {
                         for ( DataSnapshot snapshot : datasnapshot.getChildren())
                         {
                             mcandidate m =snapshot.getValue(mcandidate.class);
-                            String txt=m.name+"--"+m.party;
+                            String txt="Name: "+m.name+" Party: "+m.party;
                             list.add(txt);
                         }
                         adapter.notifyDataSetChanged();

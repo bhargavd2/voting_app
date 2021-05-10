@@ -36,7 +36,7 @@ public class viewvoter extends AppCompatActivity {
                         for ( DataSnapshot snapshot : datasnapshot.getChildren())
                         {
                             member m =snapshot.getValue(member.class);
-                            String txt =m.id+" -- "+m.email;
+                            String txt ="Id:"+m.id+" Email:"+m.email;
                             list.add(txt);
                         }
                         adapter.notifyDataSetChanged();
