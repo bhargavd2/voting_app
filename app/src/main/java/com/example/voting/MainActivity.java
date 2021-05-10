@@ -16,6 +16,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.concurrent.Executor;
 
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity
     EditText e1;
     EditText e2;
     Button b;
+    String status;
 
     public void onStart()
     {
@@ -43,7 +48,7 @@ public class MainActivity extends AppCompatActivity
         e1=findViewById(R.id.email);
         e2=findViewById(R.id.password);
         b=findViewById(R.id.login);
-
+        status="false";
         b.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -73,10 +78,28 @@ public class MainActivity extends AppCompatActivity
                                 }
                                 else
                                 {
-                                    //if condition for active status
-                                    startActivity(new Intent(getApplicationContext(), MainActivity3.class));
-                                    finish();
-                                    return;
+
+                                    FirebaseDatabase.getInstance().getReference("election").addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            status=snapshot.getValue().toString();
+                                            if(status.equals("true"))
+                                            {
+                                                startActivity(new Intent(getApplicationContext(), MainActivity3.class));
+                                                finish();
+                                                return;
+                                            }
+                                            else {
+                                                Toast.makeText(getApplicationContext(), "election not started", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+
                                 }
                             }
                         }
