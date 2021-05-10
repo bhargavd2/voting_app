@@ -72,6 +72,27 @@ public class control extends AppCompatActivity {
 
                             }
                         });
+                FirebaseDatabase.getInstance().getReference("candidates")
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+
+                                for ( DataSnapshot snapshot : datasnapshot.getChildren())
+                                {
+                                    mcandidate m2 =snapshot.getValue(mcandidate.class);
+                                    mcandidate m3=new mcandidate(m2.name,m2.party,m2.id);
+                                    FirebaseDatabase.getInstance().getReference("candidates")
+                                            .child(m2.id).setValue(m3);
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
             }
         });
         b2.setOnClickListener(new View.OnClickListener() {

@@ -25,11 +25,13 @@ public class MainActivity3 extends AppCompatActivity {
     Button btnLogOut;
     ListView listView;
     String v1;
+    String us;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
         v1="-1";
+        us=FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
         btnLogOut = (Button) findViewById(R.id.btnLogOut);
         listView = (ListView) findViewById(R.id.listview);
         final ArrayList<String> list =new ArrayList<>();
@@ -64,21 +66,18 @@ public class MainActivity3 extends AppCompatActivity {
             {
                 String value = (String)adapter.getItemAtPosition(position);
                 String value1[]=value.split(":");
-                System.out.println(value1[value1.length-1]);
-
                 v1=value1[value1.length-1];
-                FirebaseDatabase.getInstance().getReference("candidate")
+                FirebaseDatabase.getInstance().getReference("candidates")
                         .addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                                 for ( DataSnapshot snapshot : datasnapshot.getChildren()) {
 
-
                                     mcandidate m = snapshot.getValue(mcandidate.class);
 
-                                    if (m.id.equals(v)) {
-                                        m.votes += 1;
-                                        FirebaseDatabase.getInstance().getReference("candidate").child(m.id)
+                                    if (m.id.equals(v1)) {
+                                        m.votes = m.votes+1;
+                                        FirebaseDatabase.getInstance().getReference("candidates").child(m.id)
                                                 .setValue(m);
                                         FirebaseDatabase.getInstance().getReference("voters")
                                                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -86,14 +85,13 @@ public class MainActivity3 extends AppCompatActivity {
                                                     public void onDataChange(@NonNull DataSnapshot datasnapshot) {
 
                                                         for (DataSnapshot snapshot : datasnapshot.getChildren()) {
-                                                            member m = snapshot.getValue(member.class);
-                                                            String id = FirebaseAuth.getInstance().getUid().toString();
-                                                            if (id.equals(m.uid)) {
-                                                                m.status = "true";
-                                                                FirebaseDatabase.getInstance().getReference("voters").child(m.id)
-                                                                        .setValue(m);
-                                                                break;
+                                                            member m1 = snapshot.getValue(member.class);
 
+                                                            if (us.equals(m1.uid)) {
+                                                                m1.status = "true";
+                                                                FirebaseDatabase.getInstance().getReference("voters").child(m1.id)
+                                                                        .setValue(m1);
+                                                                break;
                                                             }
                                                         }
 
@@ -115,6 +113,10 @@ public class MainActivity3 extends AppCompatActivity {
 
                             }
                         });
+                FirebaseAuth.getInstance().signOut();
+                Intent I = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(I);
+
             }
         });
         btnLogOut.setOnClickListener(new View.OnClickListener() {

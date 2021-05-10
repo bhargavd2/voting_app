@@ -102,11 +102,8 @@ public class addvoter extends AppCompatActivity {
             }
         });
     }
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(),voter.class));
-        finish();
-    }
+
+
 }
 class member
 {
