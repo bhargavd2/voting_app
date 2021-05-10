@@ -76,9 +76,7 @@ public class MainActivity3 extends AppCompatActivity {
                                     mcandidate m = snapshot.getValue(mcandidate.class);
 
                                     if (m.id.equals(v1)) {
-                                        m.votes = m.votes+1;
-                                        FirebaseDatabase.getInstance().getReference("candidates").child(m.id)
-                                                .setValue(m);
+
                                         FirebaseDatabase.getInstance().getReference("voters")
                                                 .addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
@@ -87,8 +85,11 @@ public class MainActivity3 extends AppCompatActivity {
                                                         for (DataSnapshot snapshot : datasnapshot.getChildren()) {
                                                             member m1 = snapshot.getValue(member.class);
 
-                                                            if (us.equals(m1.uid)) {
+                                                            if (us.equals(m1.uid)&& "false".equals(m1.status)) {
                                                                 m1.status = "true";
+                                                                m.votes = m.votes+1;
+                                                                FirebaseDatabase.getInstance().getReference("candidates").child(m.id)
+                                                                        .setValue(m);
                                                                 FirebaseDatabase.getInstance().getReference("voters").child(m1.id)
                                                                         .setValue(m1);
                                                                 break;
