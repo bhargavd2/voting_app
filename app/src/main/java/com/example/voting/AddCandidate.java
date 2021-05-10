@@ -46,7 +46,7 @@ public class AddCandidate extends AppCompatActivity {
                     e2.setError("party is required.");
                     return;
                 }
-                mcandidate c=new mcandidate(name,party);
+                mcandidate c=new mcandidate(name,party,id);
                 FirebaseDatabase.getInstance().getReference("candidates").child(id)
                         .setValue(c).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -72,14 +72,16 @@ class mcandidate
     public String name;
     public String party;
     public int votes;
+    public String id;
 
     mcandidate()
     {    }
 
-    mcandidate(String a,String b)
+    mcandidate(String a,String b,String c)
     {
         name=a;
         party=b;
         votes=0;
+        id=c;
     }
 }
